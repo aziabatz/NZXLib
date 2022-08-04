@@ -32,7 +32,7 @@
     code                                                                                                                                    \
     }                                                                                                                                       \
 
-const Pointer Memory::findFirstOccurrence(const Pointer pointer, const UnsignedChar *searchingByte, Size threshold) {
+Pointer Memory::findFirstOccurrence(const Pointer pointer, const UnsignedChar *searchingByte, Size threshold) {
     for(UnsignedChar * byte = (UnsignedChar *) pointer; byte < ((UnsignedChar*)pointer+threshold); byte++){
         if(*byte == *searchingByte){
             return byte;
@@ -41,7 +41,7 @@ const Pointer Memory::findFirstOccurrence(const Pointer pointer, const UnsignedC
     return nullptr;
 }
 
-const Integer Memory::compareMemory(const Pointer left, const Pointer right, Size threshold) {
+Integer Memory::compareMemory(const Pointer left, const Pointer right, Size threshold) {
     UnsignedChar * byteL;
     UnsignedChar * byteR;
     for(byteL = (UnsignedChar *) left,byteR = (UnsignedChar *) right;
@@ -57,7 +57,7 @@ const Integer Memory::compareMemory(const Pointer left, const Pointer right, Siz
     return 0;
 }
 
-const Pointer Memory::setMemory(Pointer destination, char fillingByte, Size threshold) {
+Pointer Memory::setMemory(Pointer destination, char fillingByte, Size threshold) {
     for(UnsignedChar * byte = (UnsignedChar *) destination; byte < ((UnsignedChar*)destination+threshold); byte++){
         *byte = fillingByte;
     }
@@ -67,13 +67,13 @@ const Pointer Memory::setMemory(Pointer destination, char fillingByte, Size thre
 static const void * __unrestricted_memcpy(void * dest, void * src, unsigned int n){
     unsigned char * destination = static_cast<unsigned char *>(dest);
     unsigned char * source = static_cast<unsigned char *>(src);
-    for(int c=0;c<n;c++){
+    for(unsigned int c=0;c<n;c++){
         destination[c] = source[c];
     }
     return dest;
 }
 
-const Pointer Memory::copyMemory(Pointer destination, const Pointer source, Size threshold) {
+Pointer Memory::copyMemory(Pointer destination, const Pointer source, Size threshold) {
     //Are the same
     if(source == destination){
         return destination;
@@ -90,22 +90,23 @@ const Pointer Memory::copyMemory(Pointer destination, const Pointer source, Size
     return destination;
 }
 
-const Pointer Memory::copyMemoryWithOverlap(Pointer destination, const Pointer source, Size threshold) {
-    UnsignedChar * tempBuffer;
+Pointer Memory::copyMemoryWithOverlap(Pointer destination, const Pointer source, Size threshold) {
+
 #ifdef NZX_MEM_ALLOC
     //TODO implement memory allocation
+    UnsignedChar * tempBuffer;
 #else
     //16-kbytes auxiliary byffer
 
-    int bufferSize;
-    tempBuffer[bufferSize];
+    Integer bufferSize = 1024;
+    Integer tempBuffer[bufferSize];
 
     /*
      * mientras no 16k ni threshold
      *  1a parte> copiar a buffer
      *  2a parte> copiar de buffer a dest
      */
-    for(int i=0; i<threshold;i+=bufferSize){
+    for(Size i=0; i<threshold;i+=bufferSize){
         //save to buffer
         __unrestricted_memcpy(tempBuffer, source, threshold);
         //restore to dest

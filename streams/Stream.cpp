@@ -23,10 +23,11 @@
 //
 
 #include <Library/Streams/Stream.hpp>
+#include <Library/Memory/Memory.hpp>
 
-Stream::Stream(Integer ID, char *streamName) {
+Stream::Stream(Integer ID, char * streamName) {
     this->ID = ID;
-    //todo memcpy name
+    Memory::copyMemory(this->streamName, streamName, STREAM_ALIAS_LENGTH);
 }
 
 Integer Stream::getId() const {

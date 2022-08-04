@@ -25,8 +25,25 @@
 #include <Library/Streams/OutputStream.hpp>
 
 
-OutputStream::OutputStream(Integer id, char *streamName, UnsignedInteger buffer) : Stream(id, streamName) {
+OutputStream::OutputStream(Integer id, char *streamName, UnsignedChar type) : Stream(id, streamName) {
+    this->bufferType = type;
+}
 
+OutputStream * OutputStream::operator<<(const Char character){
+    return this;
+}
+
+OutputStream * OutputStream::operator<<(const Integer integer){
+
+    return this;
+}
+
+OutputStream * OutputStream::operator<<(const Char * string){
+    return this;
+}
+
+OutputStream * OutputStream::operator<<(const Hexadecimal hex){
+    return this;
 }
 
 #ifndef __NXZ_USERLAND__
